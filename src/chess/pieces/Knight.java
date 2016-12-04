@@ -16,7 +16,9 @@ import static chess.board.Move.*;
  */
 public class Knight extends Piece {
 
-    public Knight(final int piecePositionX, final int piecePositionY, final Alliance pieceAlliance) {
+    public Knight(final int piecePositionX, final int piecePositionY,
+                  final Alliance pieceAlliance) {
+
         super(PieceType.KNIGHT, piecePositionX, piecePositionY, pieceAlliance);
     }
 

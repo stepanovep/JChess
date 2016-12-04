@@ -16,7 +16,9 @@ import java.util.Set;
 
 public class Pawn extends Piece {
 
-    public Pawn(int piecePositionX, int piecePositionY, Alliance pieceAlliance) {
+    public Pawn(final int piecePositionX, final int piecePositionY,
+                final Alliance pieceAlliance) {
+
         super(PieceType.PAWN, piecePositionX, piecePositionY, pieceAlliance);
     }
 

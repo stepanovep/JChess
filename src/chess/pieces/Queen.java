@@ -14,7 +14,9 @@ import java.util.Set;
  */
 public class Queen extends Piece {
 
-    public Queen(int piecePositionX, int piecePositionY, Alliance pieceAlliance) {
+    public Queen(final int piecePositionX, final int piecePositionY,
+                 final Alliance pieceAlliance) {
+
         super(PieceType.QUEEN, piecePositionX, piecePositionY, pieceAlliance);
     }
 

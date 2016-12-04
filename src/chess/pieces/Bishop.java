@@ -15,7 +15,9 @@ import java.util.Set;
 
 public class Bishop extends Piece {
 
-    public Bishop(int piecePositionX, int piecePositionY, Alliance pieceAlliance) {
+    public Bishop(final int piecePositionX, final int piecePositionY,
+                  final Alliance pieceAlliance) {
+
         super(PieceType.BISHOP, piecePositionX, piecePositionY, pieceAlliance);
     }
 
