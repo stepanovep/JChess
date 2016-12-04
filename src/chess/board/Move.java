@@ -16,6 +16,7 @@ public abstract class Move {
     private Move(final Board board,
          final Piece movedPiece,
          final int destCoordX, final int destCoordY) {
+
         this.board = board;
         this.movedPiece = movedPiece;
         this.destCoordX = destCoordX;
@@ -24,6 +25,18 @@ public abstract class Move {
 
     public int getDestinationCoordinate() {
         return destCoordX*8 + destCoordY;
+    }
+
+    public int getDestCoordX() {
+        return destCoordX;
+    }
+
+    public int getDestCoordY() {
+        return destCoordY;
+    }
+
+    public Piece getMovedPiece() {
+        return this.movedPiece;
     }
 
     public abstract Board execute();
@@ -50,7 +63,7 @@ public abstract class Move {
                 builder.setPiece(piece);
             }
             // move the moved piece!
-            builder.setPiece(null);
+            builder.setPiece(this.movedPiece.movedPiece(this));
             builder.setMoveMaker(this.board.currentPlayer().getOpponent().getAlliance());
             return builder.build();
         }
