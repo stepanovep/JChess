@@ -18,8 +18,10 @@ public class Board {
     private final Collection<Piece> whitePieces;
     private final Collection<Piece> blackPieces;
 
+
     private final WhitePLayer whitePlayer;
     private final BlackPlayer blackPlayer;
+    private final Player currentPlayer;
 
     public Board(Builder builder) {
         this.gameBoard = createGameBoard(builder);
@@ -31,6 +33,7 @@ public class Board {
 
         this.whitePlayer = new WhitePLayer(this, whiteStandartLegalMoves, blackStandartLegalMoves);
         this.blackPlayer = new BlackPlayer(this, whiteStandartLegalMoves, blackStandartLegalMoves);
+        this.currentPlayer = null;
     }
 
     public Player whitePlayer() {
@@ -39,6 +42,10 @@ public class Board {
 
     public Player blackPlayer() {
         return this.blackPlayer;
+    }
+
+    public Player currentPlayer() {
+        return this.currentPlayer;
     }
 
     public static Board createStandartBoard() {
@@ -147,6 +154,8 @@ public class Board {
     public Cell getCell(final int x, final int y) {
         return gameBoard[x][y];
     }
+
+
 
     public static class Builder {
 

@@ -6,7 +6,7 @@ import chess.pieces.Piece;
  * Created by stepanovep on 12/2/16.
  */
 
-public class Move {
+public abstract class Move {
 
     private final Board board;
     private final Piece movedPiece;
@@ -21,6 +21,12 @@ public class Move {
         this.destCoordY = destCoordY;
     }
 
+    public int getDestinationCoordinate() {
+        return destCoordX*8 + destCoordY;
+    }
+
+    public abstract Board execute();
+
     public static final class MajorMove extends Move {
 
         public MajorMove(final Board board,
@@ -28,6 +34,11 @@ public class Move {
                          final int destCoordX,
                          final int destCoordY) {
             super(board, movedPiece, destCoordX, destCoordY);
+        }
+
+        @Override
+        public Board execute() {
+            return null;
         }
     }
 
@@ -41,6 +52,11 @@ public class Move {
                    final Piece attackedPiece) {
             super(board, movedPiece, destCoordX, destCoordY);
             this.attackedPiece = attackedPiece;
+        }
+
+        @Override
+        public Board execute() {
+            return null;
         }
     }
 }
