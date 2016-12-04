@@ -33,7 +33,7 @@ public class Board {
 
         this.whitePlayer = new WhitePLayer(this, whiteStandartLegalMoves, blackStandartLegalMoves);
         this.blackPlayer = new BlackPlayer(this, whiteStandartLegalMoves, blackStandartLegalMoves);
-        this.currentPlayer = null;
+        this.currentPlayer = builder.nextMoveMaker.choosePlayer(this.whitePlayer, this.blackPlayer);
     }
 
     public Player whitePlayer() {

@@ -11,9 +11,9 @@ import java.util.Collection;
  * Created by stepanovep on 12/4/16.
  */
 public class WhitePLayer extends Player {
-    public WhitePLayer(Board board,
-                       Collection<Move> whiteStandartLegalMoves,
-                       Collection<Move> blackStandartLegalMoves) {
+    public WhitePLayer(final Board board,
+                       final Collection<Move> whiteStandartLegalMoves,
+                       final Collection<Move> blackStandartLegalMoves) {
 
         super(board, whiteStandartLegalMoves, blackStandartLegalMoves);
     }
