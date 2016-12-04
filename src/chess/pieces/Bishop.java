@@ -16,7 +16,7 @@ import java.util.Set;
 public class Bishop extends Piece {
 
     public Bishop(int piecePositionX, int piecePositionY, Alliance pieceAlliance) {
-        super(piecePositionX, piecePositionY, pieceAlliance);
+        super(PieceType.BISHOP, piecePositionX, piecePositionY, pieceAlliance);
     }
 
     private boolean canMoveTo(int toX, int toY) {

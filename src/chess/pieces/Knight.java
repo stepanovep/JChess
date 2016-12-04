@@ -17,7 +17,7 @@ import static chess.board.Move.*;
 public class Knight extends Piece {
 
     public Knight(final int piecePositionX, final int piecePositionY, final Alliance pieceAlliance) {
-        super(piecePositionX, piecePositionY, pieceAlliance);
+        super(PieceType.KNIGHT, piecePositionX, piecePositionY, pieceAlliance);
     }
 
     public boolean canMoveTo(int x, int y) {

@@ -12,12 +12,17 @@ import java.util.Collection;
 
 public abstract class Piece {
 
+    protected final PieceType pieceType;
     protected final int piecePositionX;
     protected final int piecePositionY;
     protected final Alliance pieceAlliance;
 
 
-    Piece(final int piecePositionX, final int piecePositionY, final Alliance pieceAlliance) {
+    Piece(final PieceType pieceType,
+          final int piecePositionX, final int piecePositionY,
+          final Alliance pieceAlliance) {
+
+        this.pieceType = pieceType;
         this.pieceAlliance = pieceAlliance;
         this.piecePositionX = piecePositionX;
         this.piecePositionY = piecePositionY;
@@ -39,6 +44,10 @@ public abstract class Piece {
         return this.pieceAlliance;
     }
 
+    public PieceType getPieceType() {
+        return this.pieceType;
+    }
+
     public abstract Collection<Move> calculateLegalMoves(final Board board);
 
     public enum PieceType {
@@ -49,6 +58,12 @@ public abstract class Piece {
         ROOK("R"),
         QUEEN("Q"),
         KING("K");
+
+        // in the original code there is an abstract method isKing()
+        // if it will FAIL use the original source !! Video# 17, 15:30
+        public boolean isKing() {
+            return pieceName.equals("K");
+        }
 
         private String pieceName;
 

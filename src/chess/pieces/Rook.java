@@ -15,7 +15,7 @@ import java.util.Set;
 public class Rook extends Piece {
 
     public Rook(int piecePositionX, int piecePositionY, Alliance pieceAlliance) {
-        super(piecePositionX, piecePositionY, pieceAlliance);
+        super(PieceType.ROOK, piecePositionX, piecePositionY, pieceAlliance);
     }
 
     private boolean canMoveTo (int toX, int toY) {

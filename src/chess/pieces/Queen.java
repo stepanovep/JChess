@@ -15,7 +15,7 @@ import java.util.Set;
 public class Queen extends Piece {
 
     public Queen(int piecePositionX, int piecePositionY, Alliance pieceAlliance) {
-        super(piecePositionX, piecePositionY, pieceAlliance);
+        super(PieceType.QUEEN, piecePositionX, piecePositionY, pieceAlliance);
     }
 
     private boolean canMoveTo(final int toX, final int toY) {

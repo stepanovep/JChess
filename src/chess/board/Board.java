@@ -2,6 +2,9 @@ package chess.board;
 
 import chess.Alliance;
 import chess.pieces.*;
+import chess.player.BlackPlayer;
+import chess.player.Player;
+import chess.player.WhitePLayer;
 
 import java.util.*;
 
@@ -15,6 +18,9 @@ public class Board {
     private final Collection<Piece> whitePieces;
     private final Collection<Piece> blackPieces;
 
+    private final WhitePLayer whitePlayer;
+    private final BlackPlayer blackPlayer;
+
     public Board(Builder builder) {
         this.gameBoard = createGameBoard(builder);
         this.whitePieces = calculateActivePieces(this.gameBoard, Alliance.WHITE);
@@ -22,6 +28,62 @@ public class Board {
 
         final Collection<Move> whiteStandartLegalMoves = calculateLegamMoves(this.whitePieces);
         final Collection<Move> blackStandartLegalMoves = calculateLegamMoves(this.blackPieces);
+
+        this.whitePlayer = new WhitePLayer(this, whiteStandartLegalMoves, blackStandartLegalMoves);
+        this.blackPlayer = new BlackPlayer(this, whiteStandartLegalMoves, blackStandartLegalMoves);
+    }
+
+    public Player whitePlayer() {
+        return this.whitePlayer;
+    }
+
+    public Player blackPlayer() {
+        return this.blackPlayer;
+    }
+
+    public static Board createStandartBoard() {
+        final Builder builder = new Builder();
+
+        //Black Layout
+        builder.setPiece(new Rook   (7, 0, Alliance.WHITE));
+        builder.setPiece(new Knight (7, 1, Alliance.WHITE));
+        builder.setPiece(new Bishop (7, 2, Alliance.WHITE));
+        builder.setPiece(new Queen  (7, 3, Alliance.WHITE));
+        builder.setPiece(new King   (7, 4, Alliance.WHITE));
+        builder.setPiece(new Bishop (7, 5, Alliance.WHITE));
+        builder.setPiece(new Knight (7, 6, Alliance.WHITE));
+        builder.setPiece(new Rook   (7, 7, Alliance.WHITE));
+
+        for (int i = 0; i < BoardUtils.NUM_CELLS_PER_ROW; i++) {
+            builder.setPiece(new Pawn(6, i, Alliance.WHITE));
+        }
+
+        //White Layout
+        builder.setPiece(new Rook   (0, 0, Alliance.BLACK));
+        builder.setPiece(new Knight (0, 1, Alliance.BLACK));
+        builder.setPiece(new Bishop (0, 2, Alliance.BLACK));
+        builder.setPiece(new Queen  (0, 3, Alliance.BLACK));
+        builder.setPiece(new King   (0, 4, Alliance.BLACK));
+        builder.setPiece(new Bishop (0, 5, Alliance.BLACK));
+        builder.setPiece(new Knight (0, 6, Alliance.BLACK));
+        builder.setPiece(new Rook   (0, 7, Alliance.BLACK));
+
+        for (int i = 0; i < BoardUtils.NUM_CELLS_PER_ROW; i++) {
+            builder.setPiece(new Pawn(1, i, Alliance.BLACK));
+        }
+
+        return builder.build();
+    }
+
+    public static Cell[][] createGameBoard(final Builder builder) {
+        final int N = BoardUtils.NUM_CELLS_PER_ROW;
+        final Cell[][] cells = new Cell[N][N];
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                cells[i][j] = Cell.createCell(i, j, builder.boardConfig.get(i*8+j));
+            }
+        }
+        return cells;
     }
 
     @Override
@@ -36,6 +98,14 @@ public class Board {
         }
 
         return builder.toString();
+    }
+
+    public Collection<Piece> getBlackPieces() {
+        return this.blackPieces;
+    }
+
+    public Collection<Piece> getWhitePieces() {
+        return this.whitePieces;
     }
 
     private static String prettyPrint(Cell cell) {
@@ -77,52 +147,6 @@ public class Board {
     public Cell getCell(final int x, final int y) {
         return gameBoard[x][y];
     }
-
-    public static Cell[][] createGameBoard(final Builder builder) {
-        final int N = BoardUtils.NUM_CELLS_PER_ROW;
-        final Cell[][] cells = new Cell[N][N];
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                cells[i][j] = Cell.createCell(i, j, builder.boardConfig.get(i*8+j));
-            }
-        }
-        return cells;
-    }
-
-    public static Board createStandartBoard() {
-        final Builder builder = new Builder();
-
-        //Black Layout
-        builder.setPiece(new Rook   (7, 0, Alliance.WHITE));
-        builder.setPiece(new Knight (7, 1, Alliance.WHITE));
-        builder.setPiece(new Bishop (7, 2, Alliance.WHITE));
-        builder.setPiece(new Queen  (7, 3, Alliance.WHITE));
-        builder.setPiece(new King   (7, 4, Alliance.WHITE));
-        builder.setPiece(new Bishop (7, 5, Alliance.WHITE));
-        builder.setPiece(new King   (7, 6, Alliance.WHITE));
-        builder.setPiece(new Rook   (7, 7, Alliance.WHITE));
-
-        for (int i = 0; i < BoardUtils.NUM_CELLS_PER_ROW; i++) {
-            builder.setPiece(new Pawn(6, i, Alliance.WHITE));
-        }
-
-        //White Layout
-        builder.setPiece(new Rook   (0, 0, Alliance.BLACK));
-        builder.setPiece(new Knight (0, 1, Alliance.BLACK));
-        builder.setPiece(new Bishop (0, 2, Alliance.BLACK));
-        builder.setPiece(new Queen  (0, 3, Alliance.BLACK));
-        builder.setPiece(new King   (0, 4, Alliance.BLACK));
-        builder.setPiece(new Bishop (0, 5, Alliance.BLACK));
-        builder.setPiece(new Knight (0, 6, Alliance.BLACK));
-        builder.setPiece(new Rook   (0, 7, Alliance.BLACK));
-
-        for (int i = 0; i < BoardUtils.NUM_CELLS_PER_ROW; i++) {
-            builder.setPiece(new Pawn(1, i, Alliance.BLACK));
-        }
-
-        return builder.build();
-    }
-
 
     public static class Builder {
 
