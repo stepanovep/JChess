@@ -111,4 +111,9 @@ public class Queen extends Piece {
 
         return legalMoves;
     }
+
+    @Override
+    public String toString() {
+        return PieceType.QUEEN.toString();
+    }
 }

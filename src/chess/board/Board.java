@@ -27,20 +27,12 @@ public class Board {
         final Collection<Move> blackStandartLegalMoves = calculateLegamMoves(this.blackPieces);
     }
 
-    private static String prettyPrint(Cell cell) {
-        if (cell.isCellOccupied()) {
-            return cell.getPiece().getPieceAlliance() == Alliance.BLACK ? cell.toString().toLowerCase():
-                    cell.toString();
-        }
-        return cell.toString();
-    }
-
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         for (int i = 0; i < BoardUtils.NUM_CELLS_PER_ROW; i++) {
             for (int j = 0; j < BoardUtils.NUM_CELLS_PER_ROW; j++) {
-                final String cellText = prettyPrint(this.gameBoard[i][j]);
+                final String cellText = gameBoard[i][j].toString();
                 builder.append(String.format("%3s", cellText));
             }
             builder.append("\n");
@@ -49,7 +41,9 @@ public class Board {
         return builder.toString();
     }
 
-
+    private static String prettyPrint(Cell cell) {
+        return cell.toString();
+    }
 
     private Collection<Move> calculateLegamMoves(final Collection<Piece> pieces) {
 

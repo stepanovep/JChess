@@ -81,4 +81,9 @@ public class Rook extends Piece {
 
         return legalMoves;
     }
+
+    @Override
+    public String toString() {
+        return PieceType.ROOK.toString();
+    }
 }

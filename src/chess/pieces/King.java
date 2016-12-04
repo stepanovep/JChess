@@ -48,4 +48,8 @@ public class King extends Piece {
         return legalMoves;
     }
 
+    @Override
+    public String toString() {
+        return PieceType.KING.toString();
+    }
 }

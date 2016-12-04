@@ -58,4 +58,9 @@ public class Bishop extends Piece {
 
         return legalMoves;
     }
+
+    @Override
+    public String toString() {
+        return PieceType.BISHOP.toString();
+    }
 }

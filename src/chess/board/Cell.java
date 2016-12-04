@@ -1,5 +1,6 @@
 package chess.board;
 
+import chess.Alliance;
 import chess.pieces.Piece;
 
 import java.util.Collections;
@@ -88,7 +89,8 @@ public abstract class Cell {
 
         @Override
         public String toString() {
-            return this.pieceOnCell.toString();
+            return getPiece().getPieceAlliance() == Alliance.BLACK ? toString().toLowerCase():
+                    getPiece().toString();
         }
     }
 
