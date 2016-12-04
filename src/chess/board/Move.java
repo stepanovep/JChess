@@ -1,5 +1,6 @@
 package chess.board;
 
+import chess.board.Board.Builder;
 import chess.pieces.Piece;
 
 /**
@@ -8,9 +9,9 @@ import chess.pieces.Piece;
 
 public abstract class Move {
 
-    private final Board board;
-    private final Piece movedPiece;
-    private final int destCoordX, destCoordY;
+    final Board board;
+    final Piece movedPiece;
+    final int destCoordX, destCoordY;
 
     private Move(final Board board,
          final Piece movedPiece,
@@ -38,7 +39,20 @@ public abstract class Move {
 
         @Override
         public Board execute() {
-            return null;
+            final Builder builder = new Builder();
+            for (final Piece piece: this.board.currentPlayer().getActivePieces()) {
+                // TODO hashCode and equals for Pieces
+                if (!this.movedPiece.equals(piece)) {
+                    builder.setPiece(piece);
+                }
+            }
+            for (final Piece piece: this.board.currentPlayer().getOpponent().getActivePieces()) {
+                builder.setPiece(piece);
+            }
+            // move the moved piece!
+            builder.setPiece(null);
+            builder.setMoveMaker(this.board.currentPlayer().getOpponent().getAlliance());
+            return builder.build();
         }
     }
 
