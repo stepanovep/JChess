@@ -60,6 +60,11 @@ public abstract class Cell {
             return null;
         }
 
+        @Override
+        public String toString() {
+            return "-";
+        }
+
     }
 
     public static final class OccupiedCell extends Cell {
@@ -80,14 +85,14 @@ public abstract class Cell {
         public Piece getPiece() {
             return pieceOnCell;
         }
+
+        @Override
+        public String toString() {
+            return this.pieceOnCell.toString();
+        }
     }
 
     public static boolean legalPosition(final int x, final int y) {
         return x >= 0 && x < 8 && y >= 0 && y < 8;
-    }
-
-    @Override
-    public String toString() {
-        return "(" + (char)('a' + x) + ", " + (y+1) + ")";
     }
 }

@@ -27,6 +27,30 @@ public class Board {
         final Collection<Move> blackStandartLegalMoves = calculateLegamMoves(this.blackPieces);
     }
 
+    private static String prettyPrint(Cell cell) {
+        if (cell.isCellOccupied()) {
+            return cell.getPiece().getPieceAlliance() == Alliance.BLACK ? cell.toString().toLowerCase():
+                    cell.toString();
+        }
+        return cell.toString();
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < BoardUtils.NUM_CELLS_PER_ROW; i++) {
+            for (int j = 0; j < BoardUtils.NUM_CELLS_PER_ROW; j++) {
+                final String cellText = prettyPrint(this.gameBoard[i][j]);
+                builder.append(String.format("%3s", cellText));
+            }
+            builder.append("\n");
+        }
+
+        return builder.toString();
+    }
+
+
+
     private Collection<Move> calculateLegamMoves(final Collection<Piece> pieces) {
 
         final List<Move> legalMoves = new ArrayList<>();
@@ -37,8 +61,8 @@ public class Board {
         return legalMoves;
     }
 
-    private Collection<Piece> calculateActivePieces(final Cell[][] gameBoard,
-                                                    final Alliance alliance) {
+    private static Collection<Piece> calculateActivePieces(final Cell[][] gameBoard,
+                                                           final Alliance alliance) {
 
         final List<Piece> activePieces = new ArrayList<>();
         final int N = BoardUtils.NUM_CELLS_PER_ROW;
