@@ -5,6 +5,7 @@ import chess.board.Board;
 import chess.board.Cell;
 import chess.board.Move;
 
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -15,7 +16,7 @@ import static chess.board.Move.*;
  */
 public class Knight extends Piece {
 
-    Knight(final int piecePositionX, final int piecePositionY, final Alliance pieceAlliance) {
+    public Knight(final int piecePositionX, final int piecePositionY, final Alliance pieceAlliance) {
         super(piecePositionX, piecePositionY, pieceAlliance);
     }
 
@@ -24,7 +25,7 @@ public class Knight extends Piece {
     }
 
     @Override
-    public Set<Move> calculateLegalMoves(final Board board) {
+    public Collection<Move> calculateLegalMoves(final Board board) {
 
         final Set<Move> legalMoves = new LinkedHashSet<>();
 

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by captain_nemo on 12/2/16.
+ * Created by stepanovep on 12/2/16.
  */
 
 public abstract class Cell {
@@ -82,6 +82,9 @@ public abstract class Cell {
         }
     }
 
+    public static boolean legalPosition(final int x, final int y) {
+        return x >= 0 && x < 8 && y >= 0 && y < 8;
+    }
 
     @Override
     public String toString() {

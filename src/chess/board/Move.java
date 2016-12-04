@@ -3,16 +3,16 @@ package chess.board;
 import chess.pieces.Piece;
 
 /**
- * Created by captain_nemo on 12/2/16.
+ * Created by stepanovep on 12/2/16.
  */
 
 public class Move {
 
-    final Board board;
-    final Piece movedPiece;
-    final int destCoordX, destCoordY;
+    private final Board board;
+    private final Piece movedPiece;
+    private final int destCoordX, destCoordY;
 
-    public Move(final Board board,
+    private Move(final Board board,
          final Piece movedPiece,
          final int destCoordX, final int destCoordY) {
         this.board = board;

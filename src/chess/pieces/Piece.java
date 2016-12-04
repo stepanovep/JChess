@@ -2,14 +2,12 @@ package chess.pieces;
 
 import chess.Alliance;
 import chess.board.Board;
-import chess.board.Cell;
 import chess.board.Move;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.Collection;
 
 /**
- * Created by captain_nemo on 12/2/16.
+ * Created by stepanovep on 12/2/16.
  */
 
 public abstract class Piece {
@@ -25,11 +23,23 @@ public abstract class Piece {
         this.piecePositionY = piecePositionY;
     }
 
+    public int getPiecePositionX() {
+        return piecePositionX;
+    }
+
+    public int getPiecePositionY() {
+        return piecePositionY;
+    }
+
+    public int getPiecePosition() {
+        return piecePositionX*8 + piecePositionY;
+    }
+
     public Alliance getPieceAlliance() {
         return this.pieceAlliance;
     }
 
     //public abstract boolean canMoveTo(int x, int y);
 
-    public abstract Set<Move> calculateLegalMoves(final Board board);
+    public abstract Collection<Move> calculateLegalMoves(final Board board);
 }
