@@ -23,7 +23,7 @@ public class BoardUtils {
     }
 
     public static boolean isValidCellCoordinate (int x, int y) {
-        return x >= 0 && x < NUM_CELLS_PER_ROW && y >= 0 && y <= NUM_CELLS_PER_ROW;
+        return x >= 0 && x < NUM_CELLS_PER_ROW && y >= 0 && y < NUM_CELLS_PER_ROW;
     }
 
 }

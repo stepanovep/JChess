@@ -89,7 +89,7 @@ public abstract class Cell {
 
         @Override
         public String toString() {
-            return getPiece().getPieceAlliance() == Alliance.BLACK ? toString().toLowerCase():
+            return getPiece().getPieceAlliance().isBlack() ? getPiece().toString().toLowerCase():
                     getPiece().toString();
         }
     }
