@@ -104,6 +104,12 @@ public abstract class Piece {
             return pieceName.equals("K");
         }
 
+        // in the original code there is an abstract method isKing()
+        // if it will FAIL use the original source !! Video# 26, 15:45
+        public boolean isRook() {
+            return pieceName.equals("R");
+        }
+
         private String pieceName;
 
         PieceType(final String pieceName) {
