@@ -1,9 +1,8 @@
-package chess.board;
+package chess.engine.board;
 
-import chess.board.Board.Builder;
-import chess.pieces.Pawn;
-import chess.pieces.Piece;
-import chess.pieces.Rook;
+import chess.engine.pieces.Rook;
+import chess.engine.pieces.Pawn;
+import chess.engine.pieces.Piece;
 
 /**
  * Created by stepanovep on 12/2/16.
@@ -84,7 +83,7 @@ public abstract class Move {
     }
 
     public Board execute() {
-        final Builder builder = new Builder();
+        final Board.Builder builder = new Board.Builder();
         for (final Piece piece: this.board.currentPlayer().getActivePieces()) {
             // TODO hashCode and equals for Pieces
             if (!this.movedPiece.equals(piece)) {
@@ -176,7 +175,7 @@ public abstract class Move {
         }
     }
 
-    public static final class PawnEnPassantAttackMove extends chess.board.Move.PawnAttackMove {
+    public static final class PawnEnPassantAttackMove extends Move.PawnAttackMove {
 
         public PawnEnPassantAttackMove(final Board board,
                                        final Piece movedPiece,
@@ -199,7 +198,7 @@ public abstract class Move {
 
         @Override
         public Board execute() {
-            final Builder builder = new Builder();
+            final Board.Builder builder = new Board.Builder();
             for (final Piece piece: this.board.currentPlayer().getActivePieces()) {
                 if (!this.movedPiece.equals(piece)) {
                     builder.setPiece(piece);
@@ -250,7 +249,7 @@ public abstract class Move {
         @Override
         public Board execute() {
 
-            final Builder builder = new Builder();
+            final Board.Builder builder = new Board.Builder();
             for (final Piece piece: this.board.currentPlayer().getActivePieces()) {
                 if (!this.movedPiece.equals(piece) && !this.castleRook.equals(piece)) {
                     builder.setPiece(piece);

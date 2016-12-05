@@ -1,10 +1,10 @@
-package chess.pieces;
+package chess.engine.pieces;
 
-import chess.Alliance;
-import chess.board.Board;
-import chess.board.BoardUtils;
-import chess.board.Cell;
-import chess.board.Move;
+import chess.engine.Alliance;
+import chess.engine.board.Board;
+import chess.engine.board.BoardUtils;
+import chess.engine.board.Cell;
+import chess.engine.board.Move;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;

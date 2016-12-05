@@ -1,12 +1,12 @@
-package chess.player;
+package chess.engine.player;
 
-import chess.Alliance;
-import chess.board.Board;
-import chess.board.Cell;
-import chess.board.Move;
-import chess.board.Move.KingSideCastleMove;
-import chess.pieces.Piece;
-import chess.pieces.Rook;
+import chess.engine.Alliance;
+import chess.engine.board.Board;
+import chess.engine.board.Cell;
+import chess.engine.board.Move;
+import chess.engine.board.Move.KingSideCastleMove;
+import chess.engine.pieces.Piece;
+import chess.engine.pieces.Rook;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,6 +15,7 @@ import java.util.List;
 /**
  * Created by stepanovep on 12/4/16.
  */
+
 public class WhitePLayer extends Player {
     public WhitePLayer(final Board board,
                        final Collection<Move> whiteStandartLegalMoves,
@@ -49,8 +50,8 @@ public class WhitePLayer extends Player {
                 final Cell rookCell = this.board.getCell(7, 7);
 
                 if (rookCell.isCellOccupied() && rookCell.getPiece().isFirstMove()) {
-                    if (Player.calculateAttacksOnTile(7*8+5, opponentsLegals).isEmpty() &&
-                        Player.calculateAttacksOnTile(7*8+6, opponentsLegals).isEmpty() &&
+                    if (calculateAttacksOnTile(7*8+5, opponentsLegals).isEmpty() &&
+                        calculateAttacksOnTile(7*8+6, opponentsLegals).isEmpty() &&
                         rookCell.getPiece().getPieceType().isRook()) {
 
                         kingCastles.add(new KingSideCastleMove(this.board,
@@ -67,9 +68,9 @@ public class WhitePLayer extends Player {
 
                 final Cell rookCell = this.board.getCell(7, 0);
                 if (rookCell.isCellOccupied() && rookCell.getPiece().isFirstMove()) {
-                    if (Player.calculateAttacksOnTile(7*8+1, opponentsLegals).isEmpty() &&
-                        Player.calculateAttacksOnTile(7*8+2, opponentsLegals).isEmpty() &&
-                        Player.calculateAttacksOnTile(7*8+3, opponentsLegals).isEmpty() &&
+                    if (calculateAttacksOnTile(7*8+1, opponentsLegals).isEmpty() &&
+                        calculateAttacksOnTile(7*8+2, opponentsLegals).isEmpty() &&
+                        calculateAttacksOnTile(7*8+3, opponentsLegals).isEmpty() &&
                         rookCell.getPiece().getPieceType().isRook()) {
 
                         kingCastles.add(new Move.QueenSideCastleMove(this.board,

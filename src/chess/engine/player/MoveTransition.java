@@ -1,7 +1,7 @@
-package chess.player;
+package chess.engine.player;
 
-import chess.board.Board;
-import chess.board.Move;
+import chess.engine.board.Board;
+import chess.engine.board.Move;
 
 /**
  * Created by stepanovep on 12/4/16.

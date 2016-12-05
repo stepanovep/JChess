@@ -1,8 +1,8 @@
-package chess.pieces;
+package chess.engine.pieces;
 
-import chess.Alliance;
-import chess.board.Board;
-import chess.board.Move;
+import chess.engine.Alliance;
+import chess.engine.board.Board;
+import chess.engine.board.Move;
 
 import java.util.Collection;
 

@@ -1,14 +1,14 @@
-package chess;
+package chess.engine;
 
-import chess.player.BlackPlayer;
-import chess.player.Player;
-import chess.player.WhitePLayer;
+import chess.engine.player.BlackPlayer;
+import chess.engine.player.Player;
+import chess.engine.player.WhitePLayer;
 
 public enum Alliance {
     WHITE {
         @Override
         public int getDirection() {
-            return 1;
+            return -1;
         }
 
         @Override
@@ -30,7 +30,7 @@ public enum Alliance {
     BLACK {
         @Override
         public int getDirection() {
-            return -1;
+            return 1;
         }
 
         @Override

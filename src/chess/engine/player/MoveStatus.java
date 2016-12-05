@@ -1,4 +1,4 @@
-package chess.player;
+package chess.engine.player;
 
 /**
  * Created by stepanovep on 12/4/16.
