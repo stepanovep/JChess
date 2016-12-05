@@ -2,29 +2,43 @@ package chess.gui;
 
 import chess.engine.board.Board;
 import chess.engine.board.BoardUtils;
+import chess.engine.board.Cell;
+import chess.engine.board.Move;
+import chess.engine.pieces.Piece;
+import chess.engine.player.MoveTransition;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
+import static javax.swing.SwingUtilities.isLeftMouseButton;
+import static javax.swing.SwingUtilities.isRightMouseButton;
+
 public class Table {
 
     private final JFrame gameFrame;
     private final BoardPanel boardPanel;
-    private final Board chessBoard;
+    private Board chessBoard;
+
+    private Cell sourceCell;
+    private Cell destinationCell;
+    private Piece humanMovedPiece;
+
 
     private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(600, 600);
     private final static Dimension BOARD_PANEL_DIMENSION = new Dimension(400, 350);
     private final static Dimension CELL_PANEL_DIMENSION = new Dimension(10, 10);
 
-    private static String defaultPieceImagesPath = "art/fancy/";
+    private static String defaultPieceImagesPath = "art/fancy_whited/";
 
     private final Color lightCellColor = Color.decode("#ffce9e");
     private final Color darkCellColor = Color.decode("#d18b47");
@@ -88,6 +102,16 @@ public class Table {
             setPreferredSize(BOARD_PANEL_DIMENSION);
             validate();
         }
+
+        public void drawBoard(final Board board) {
+            removeAll();
+            for (final CellPanel cellPanel: boardCells) {
+                cellPanel.drawCell(board);
+                add(cellPanel);
+            }
+            validate();
+            repaint();
+        }
     }
 
     private class CellPanel extends JPanel {
@@ -100,7 +124,74 @@ public class Table {
             setPreferredSize(CELL_PANEL_DIMENSION);
             assignCellColor();
             assignCellPieceIcon(chessBoard);
+            //TODO: can't move pieces, except the white Knight
+            //TODO: probably wrong legalMoves() methods !!!
+            addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(final MouseEvent e) {
+
+                    if (isRightMouseButton(e)) {
+                        sourceCell = null;
+                        destinationCell = null;
+                        humanMovedPiece = null;
+                    }
+                    else if (isLeftMouseButton(e)) {
+                        if(sourceCell == null) {
+                            sourceCell = chessBoard.getCell(cellId);
+                            humanMovedPiece = sourceCell.getPiece();
+                            if (humanMovedPiece == null) {
+                                sourceCell = null;
+                            }
+                        } else {
+                            destinationCell = chessBoard.getCell(cellId);
+                            final Move move = Move.MoveFactory.createMove(chessBoard, sourceCell.getCellCoordinate(), destinationCell.getCellCoordinate());
+                            final MoveTransition transition = chessBoard.currentPlayer().makeMove(move);
+                            if (transition.getMoveStatus().isDone()) {
+                                chessBoard = transition.getTransitionBoard();
+                                //TODO add the move that was made to the move log
+                            }
+                            sourceCell = null;
+                            destinationCell = null;
+                            humanMovedPiece = null;
+                        }
+                        SwingUtilities.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                boardPanel.drawBoard(chessBoard);
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void mousePressed(final MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(final MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseEntered(final MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseExited(final MouseEvent e) {
+
+                }
+            });
+
             validate();
+        }
+
+        public void drawCell (final Board board) {
+            assignCellColor();
+            assignCellPieceIcon(board);
+            validate();
+            repaint();
         }
 
         private void assignCellPieceIcon (final Board board) {

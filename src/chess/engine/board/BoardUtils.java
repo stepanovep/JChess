@@ -1,9 +1,5 @@
 package chess.engine.board;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 /**
  * Created by stepanovep on 12/2/16.
  */
