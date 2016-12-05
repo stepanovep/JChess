@@ -152,6 +152,12 @@ public class Board {
         return gameBoard[x][y];
     }
 
+    public Cell getCell(final int cellId) {
+        final int x = cellId / 8;
+        final int y = cellId % 8;
+        return gameBoard[x][y];
+    }
+
     public Collection<Move> getAllLegalMoves() {
         List<Move> allLegalMoves = new ArrayList<>();
         allLegalMoves.addAll(this.whitePlayer.getLegalMoves());
