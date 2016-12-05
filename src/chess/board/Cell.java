@@ -45,6 +45,10 @@ public abstract class Cell {
     public abstract boolean isCellOccupied();
     public abstract Piece getPiece();
 
+    public int getCellCoordinate() {
+        return this.x*8 + this.y;
+    }
+
     public static final class EmptyCell extends Cell {
 
         private EmptyCell(final int x, final int y) {

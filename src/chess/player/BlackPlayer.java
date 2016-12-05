@@ -4,7 +4,9 @@ import chess.Alliance;
 import chess.board.Board;
 import chess.board.Cell;
 import chess.board.Move;
+import chess.board.Move.KingSideCastleMove;
 import chess.pieces.Piece;
+import chess.pieces.Rook;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,7 +39,8 @@ public class BlackPlayer extends Player {
     }
 
     @Override
-    protected Collection<Move> calculateKingCastles(Collection<Move> playerLegals, Collection<Move> opponentsLegals) {
+    protected Collection<Move> calculateKingCastles(final Collection<Move> playerLegals,
+                                                    final Collection<Move> opponentsLegals) {
 
         final List<Move> kingCastles = new ArrayList<>();
 
@@ -47,10 +50,15 @@ public class BlackPlayer extends Player {
 
                 if (rookCell.isCellOccupied() && rookCell.getPiece().isFirstMove()) {
                     if (Player.calculateAttacksOnTile(0*8+5, opponentsLegals).isEmpty() &&
-                            Player.calculateAttacksOnTile(0*8+6, opponentsLegals).isEmpty() &&
-                            rookCell.getPiece().getPieceType().isRook()) {
+                        Player.calculateAttacksOnTile(0*8+6, opponentsLegals).isEmpty() &&
+                        rookCell.getPiece().getPieceType().isRook()) {
 
-                        kingCastles.add(null); //TODO add a caslteMove
+                        kingCastles.add(new KingSideCastleMove(this.board,
+                                                               this.getPlayerKing(),
+                                                               0, 6,
+                                                               (Rook)rookCell.getPiece(),
+                                                               rookCell.getCellCoordinate(),
+                                                               5));
                     }
                 }
             }
@@ -60,16 +68,20 @@ public class BlackPlayer extends Player {
                 final Cell rookCell = this.board.getCell(0, 0);
                 if (rookCell.isCellOccupied() && rookCell.getPiece().isFirstMove()) {
                     if (Player.calculateAttacksOnTile(0*8+1, opponentsLegals).isEmpty() &&
-                            Player.calculateAttacksOnTile(0*8+2, opponentsLegals).isEmpty() &&
-                            Player.calculateAttacksOnTile(0*8+3, opponentsLegals).isEmpty() &&
-                            rookCell.getPiece().getPieceType().isRook()) {
+                        Player.calculateAttacksOnTile(0*8+2, opponentsLegals).isEmpty() &&
+                        Player.calculateAttacksOnTile(0*8+3, opponentsLegals).isEmpty() &&
+                        rookCell.getPiece().getPieceType().isRook()) {
 
-                        kingCastles.add(null); //TODO add a caslteMove
+                        kingCastles.add(new Move.QueenSideCastleMove(this.board,
+                                                                     this.getPlayerKing(),
+                                                                     0, 2,
+                                                                     (Rook)rookCell.getPiece(),
+                                                                     rookCell.getCellCoordinate(),
+                                                                     3));
                     }
                 }
             }
         }
-
 
         return kingCastles;
     }
