@@ -6,9 +6,7 @@ import chess.engine.board.BoardUtils;
 import chess.engine.board.Cell;
 import chess.engine.board.Move;
 
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by stepanovep on 12/2/16.
@@ -29,7 +27,7 @@ public class Pawn extends Piece {
 
     @Override
     public Collection<Move> calculateLegalMoves(Board board) {
-        final Set<Move> legalMoves = new LinkedHashSet<>();
+        final List<Move> legalMoves = new ArrayList<>();
 
         final int dy = this.getPieceAlliance().getDirection();
         final int [] dx = {-1, 1};

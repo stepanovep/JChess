@@ -5,9 +5,7 @@ import chess.engine.board.Board;
 import chess.engine.board.Cell;
 import chess.engine.board.Move;
 
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by stepanovep on 12/2/16.
@@ -27,13 +25,12 @@ public class Rook extends Piece {
     @Override
     public Collection<Move> calculateLegalMoves(Board board) {
 
-        final Set<Move> legalMoves = new LinkedHashSet<>();
-
+        final List<Move> legalMoves = new ArrayList<>();
 
         // horizontal shifting
         int [] dx = {-1, 1};
         for (int i = 0; i < 2; i++) {
-            for (int k = 0; k < 8; ++k) {
+            for (int k = 1; k < 8; ++k) {
                 final int toX = piecePositionX + k*dx[i];
                 final int toY = piecePositionY;
                 if (Cell.legalPosition(toX, toY)) {
@@ -59,7 +56,7 @@ public class Rook extends Piece {
         // vertical shifting
         int [] dy = {-1, 1};
         for (int i = 0; i < 2; i++) {
-            for (int k = 0; k < 8; ++k) {
+            for (int k = 1; k < 8; ++k) {
                 final int toX = piecePositionX;
                 final int toY = piecePositionY + k*dy[i];
                 if (Cell.legalPosition(toX, toY)) {

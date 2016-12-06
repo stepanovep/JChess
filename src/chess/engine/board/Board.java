@@ -60,7 +60,7 @@ public class Board {
         builder.setPiece(new Bishop (7, 5, Alliance.WHITE));
         builder.setPiece(new Knight (7, 6, Alliance.WHITE));
         builder.setPiece(new Rook   (7, 7, Alliance.WHITE));
-        for (int i = 0; i < BoardUtils.NUM_CELLS_PER_ROW; i++) {
+        for (int i = 0; i < BoardUtils.NUM_CELLS_PER_ROW - 8; i++) {
             builder.setPiece(new Pawn(6, i, Alliance.WHITE));
         }
 
@@ -73,7 +73,7 @@ public class Board {
         builder.setPiece(new Bishop (0, 5, Alliance.BLACK));
         builder.setPiece(new Knight (0, 6, Alliance.BLACK));
         builder.setPiece(new Rook   (0, 7, Alliance.BLACK));
-        for (int i = 0; i < BoardUtils.NUM_CELLS_PER_ROW; i++) {
+        for (int i = 0; i < BoardUtils.NUM_CELLS_PER_ROW - 8; i++) {
             builder.setPiece(new Pawn(1, i, Alliance.BLACK));
         }
 

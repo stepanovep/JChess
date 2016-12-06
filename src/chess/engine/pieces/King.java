@@ -5,9 +5,7 @@ import chess.engine.board.Board;
 import chess.engine.board.Cell;
 import chess.engine.board.Move;
 
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by stepanovep on 12/2/16.
@@ -23,7 +21,7 @@ public class King extends Piece {
 
     @Override
     public Collection<Move> calculateLegalMoves(Board board) {
-        final Set<Move> legalMoves = new LinkedHashSet<>();
+        final List<Move> legalMoves = new ArrayList<>();
 
         int [] dx = {-1, 0, 1};
         int [] dy = {-1, 0, 1};

@@ -61,6 +61,10 @@ public abstract class Piece {
         return this.cachesHashCode;
     }
 
+    public String myToString() {
+        return pieceType.toString() + ":" + (piecePositionX+1) + " " + (piecePositionY+1);
+    }
+
     public int getPiecePositionX() {
         return piecePositionX;
     }
