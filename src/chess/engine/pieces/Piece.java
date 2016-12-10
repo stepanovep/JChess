@@ -23,14 +23,15 @@ public abstract class Piece {
 
     Piece(final PieceType pieceType,
           final int piecePositionX, final int piecePositionY,
-          final Alliance pieceAlliance) {
+          final Alliance pieceAlliance,
+          final boolean isFirstMove) {
 
         this.pieceType = pieceType;
         this.pieceAlliance = pieceAlliance;
         this.piecePositionX = piecePositionX;
         this.piecePositionY = piecePositionY;
         this.piecePosition = piecePositionX*8 + piecePositionY;
-        this.isFirstMove = false;
+        this.isFirstMove = isFirstMove;
         this.cachesHashCode = computeHashCode();
     }
 
@@ -93,14 +94,22 @@ public abstract class Piece {
 
     public abstract Piece movedPiece(Move move);
 
+    public int getPieceValue() {
+        return this.pieceType.getPieceValue();
+    }
+
     public enum PieceType {
 
-        PAWN("P"),
-        KNIGHT("N"),
-        BISHOP("B"),
-        ROOK("R"),
-        QUEEN("Q"),
-        KING("K");
+        PAWN("P", 100),
+        KNIGHT("N", 300),
+        BISHOP("B", 300),
+        ROOK("R", 500),
+        QUEEN("Q", 900),
+        KING("K", 10000);
+
+        public int getPieceValue() {
+            return this.pieceValue;
+        }
 
         // in the original code there is an abstract method isKing()
         // if it will FAIL use the original source !! Video# 17, 15:30
@@ -115,9 +124,11 @@ public abstract class Piece {
         }
 
         private String pieceName;
+        private int pieceValue;
 
-        PieceType(final String pieceName) {
+        PieceType(final String pieceName, final int pieceValue) {
             this.pieceName = pieceName;
+            this.pieceValue = pieceValue;
         }
 
         @Override

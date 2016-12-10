@@ -16,7 +16,13 @@ public class Bishop extends Piece {
     public Bishop(final int piecePositionX, final int piecePositionY,
                   final Alliance pieceAlliance) {
 
-        super(PieceType.BISHOP, piecePositionX, piecePositionY, pieceAlliance);
+        super(PieceType.BISHOP, piecePositionX, piecePositionY, pieceAlliance, true);
+    }
+
+    public Bishop(final int piecePostionX, final int piecePositionY,
+                final Alliance pieceAllience,
+                final boolean isFirstMove) {
+        super(PieceType.BISHOP, piecePostionX, piecePositionY, pieceAllience, isFirstMove);
     }
 
     private boolean canMoveTo(int toX, int toY) {

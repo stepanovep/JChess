@@ -8,6 +8,8 @@ import chess.engine.board.Move;
 
 import java.util.*;
 
+import static chess.engine.board.Move.*;
+
 /**
  * Created by stepanovep on 12/2/16.
  */
@@ -17,11 +19,17 @@ public class Pawn extends Piece {
     public Pawn(final int piecePositionX, final int piecePositionY,
                 final Alliance pieceAlliance) {
 
-        super(PieceType.PAWN, piecePositionX, piecePositionY, pieceAlliance);
+        super(PieceType.PAWN, piecePositionX, piecePositionY, pieceAlliance, true);
+    }
+
+    public Pawn(final int piecePostionX, final int piecePositionY,
+                final Alliance pieceAllience,
+                final boolean isFirstMove) {
+        super(PieceType.PAWN, piecePostionX, piecePositionY, pieceAllience, isFirstMove);
     }
 
     private boolean isPawnInStartPosition() {
-        final int startPositionX = this.getPieceAlliance().isWhite() ? 1 : 6;
+        final int startPositionX = this.getPieceAlliance().isWhite() ? 6 : 1;
         return piecePositionX == startPositionX;
     }
 
@@ -29,44 +37,46 @@ public class Pawn extends Piece {
     public Collection<Move> calculateLegalMoves(Board board) {
         final List<Move> legalMoves = new ArrayList<>();
 
-        final int dy = this.getPieceAlliance().getDirection();
-        final int [] dx = {-1, 1};
+        final int dx = this.getPieceAlliance().getDirection();
+        final int [] dy = {-1, 1};
 
         // move forward 1 step
-        int toX = piecePositionX;
-        int toY = piecePositionX + dy;
+        int toX = piecePositionX + dx;
+        int toY = piecePositionY;
 
         if (BoardUtils.isValidCellCoordinate(toX, toY)) {
             Cell moveToCell = board.getCell(toX, toY);
             if (!moveToCell.isCellOccupied()) {
-                legalMoves.add(new Move.MajorMove(board, this, toX, toY));
+                legalMoves.add(new MajorMove(board, this, toX, toY));
 
-                // move forward 2 step
-                toY = piecePositionY + 2 * dy;
+                // move forward 2 steps
+                toX = piecePositionX + 2 * dx;
                 if (BoardUtils.isValidCellCoordinate(toX, toY)) {
                     moveToCell = board.getCell(toX, toY);
                     if (!moveToCell.isCellOccupied() && isPawnInStartPosition()) {
-                        legalMoves.add(new Move.MajorMove(board, this, toX, toY));
+                        legalMoves.add(new PawnJump(board, this, toX, toY));
                     }
                 }
             }
 
             // check attack options
             for (int i = 0; i < 2; i++) {
-                toX = piecePositionX + dx[i];
-                toY = piecePositionY + dy;
+                toX = piecePositionX + dx;
+                toY = piecePositionY + dy[i];
                 if (BoardUtils.isValidCellCoordinate(toX, toY)) {
                     moveToCell = board.getCell(toX, toY);
                     if (moveToCell.isCellOccupied()) {
                         final Piece pieceAtDestination = moveToCell.getPiece();
                         final Alliance pieceAlliance = pieceAtDestination.pieceAlliance;
                         if (this.getPieceAlliance() != pieceAlliance) {
-                            legalMoves.add(new Move.AttackMove(board, this, toX, toY, pieceAtDestination));
+                            legalMoves.add(new AttackMove(board, this, toX, toY, pieceAtDestination));
                         }
                     }
                 }
             }
         }
+
+        //TODO enPassantMove attackMove!!
 
         return legalMoves;
     }

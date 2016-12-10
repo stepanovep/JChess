@@ -15,7 +15,13 @@ public class Knight extends Piece {
     public Knight(final int piecePositionX, final int piecePositionY,
                   final Alliance pieceAlliance) {
 
-        super(PieceType.KNIGHT, piecePositionX, piecePositionY, pieceAlliance);
+        super(PieceType.KNIGHT, piecePositionX, piecePositionY, pieceAlliance, true);
+    }
+
+    public Knight(final int piecePostionX, final int piecePositionY,
+                final Alliance pieceAllience,
+                final boolean isFirstMove) {
+        super(PieceType.KNIGHT, piecePostionX, piecePositionY, pieceAllience, isFirstMove);
     }
 
     public boolean canMoveTo(int x, int y) {

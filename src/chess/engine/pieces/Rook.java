@@ -15,7 +15,13 @@ public class Rook extends Piece {
     public Rook(final int piecePositionX, final int piecePositionY,
                 final Alliance pieceAlliance) {
 
-        super(PieceType.ROOK, piecePositionX, piecePositionY, pieceAlliance);
+        super(PieceType.ROOK, piecePositionX, piecePositionY, pieceAlliance, true);
+    }
+
+    public Rook(final int piecePostionX, final int piecePositionY,
+                final Alliance pieceAllience,
+                final boolean isFirstMove) {
+        super(PieceType.ROOK, piecePostionX, piecePositionY, pieceAllience, isFirstMove);
     }
 
     private boolean canMoveTo (int toX, int toY) {
