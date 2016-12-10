@@ -1,6 +1,8 @@
 package chess;
 
+import chess.engine.Alliance;
 import chess.engine.board.Board;
+import chess.engine.pieces.Queen;
 import chess.gui.Table;
 
 /**

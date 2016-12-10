@@ -10,22 +10,36 @@ import chess.engine.pieces.Piece;
 
 public abstract class Move {
 
-    final Board board;
-    final Piece movedPiece;
-    final int destCoordX, destCoordY;
-    final int destinationCoordinate;
+    protected final Board board;
+    protected final Piece movedPiece;
+    protected final int destCoordX, destCoordY;
+    protected final int destinationCoordinate;
+    protected final boolean isFirstMove;
 
     public static final Move NULL_MOVE = new NullMove();
 
     private Move(final Board board,
-         final Piece movedPiece,
-         final int destCoordX, final int destCoordY) {
+                 final Piece movedPiece,
+                 final int destCoordX, final int destCoordY) {
 
         this.board = board;
         this.movedPiece = movedPiece;
         this.destCoordX = destCoordX;
         this.destCoordY = destCoordY;
         this.destinationCoordinate = destCoordX*8 + destCoordY;
+        //this.isFirstMove = movedPiece.isFirstMove();
+        this.isFirstMove = movedPiece.isFirstMove();
+    }
+
+    private Move(final Board board,
+                 final int destCoordX, final int destCoordY) {
+
+        this.board = board;
+        this.destCoordX = destCoordX;
+        this.destCoordY = destCoordY;
+        this.destinationCoordinate = destCoordX*8 + destCoordY;
+        this.movedPiece = null;
+        this.isFirstMove = false;
     }
 
     @Override
@@ -34,6 +48,8 @@ public abstract class Move {
         int result = 1;
         result = prime * result + this.destinationCoordinate;
         result = prime * result + this.movedPiece.hashCode();
+        result = prime * result + this.movedPiece.getPiecePosition();
+        result = result + (isFirstMove ? 1: 0);
         return result;
     }
 
@@ -46,7 +62,8 @@ public abstract class Move {
             return false;
         }
         final Move otherMove = (Move) other;
-        return  getDestinationCoordinate() == otherMove.getDestinationCoordinate() &&
+        return  getCurrentCoordinate() == otherMove.getCurrentCoordinate() &&
+                getDestinationCoordinate() == otherMove.getDestinationCoordinate() &&
                 getMovedPiece().equals(otherMove.getMovedPiece());
     }
 
@@ -85,7 +102,6 @@ public abstract class Move {
     public Board execute() {
         final Board.Builder builder = new Board.Builder();
         for (final Piece piece: this.board.currentPlayer().getActivePieces()) {
-            // TODO hashCode and equals for Pieces
             if (!this.movedPiece.equals(piece)) {
                 builder.setPiece(piece);
             }
@@ -106,6 +122,11 @@ public abstract class Move {
                          final int destCoordX,
                          final int destCoordY) {
             super(board, movedPiece, destCoordX, destCoordY);
+        }
+
+        @Override
+        public boolean equals(final Object other) {
+            return this == other || other instanceof MajorMove && super.equals(other);
         }
     }
 
@@ -309,7 +330,7 @@ public abstract class Move {
     public static final class NullMove extends Move {
 
         public NullMove() {
-            super(null, null, -1, -1);
+            super(null, -1, -1);
         }
 
         @Override

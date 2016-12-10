@@ -52,6 +52,9 @@ public class Board {
         final Builder builder = new Builder();
 
         //Black Layout
+        for (int i = 0; i < BoardUtils.NUM_CELLS_PER_ROW; i++) {
+            builder.setPiece(new Pawn(6, i, Alliance.WHITE));
+        }
         builder.setPiece(new Rook   (7, 0, Alliance.WHITE));
         builder.setPiece(new Knight(7, 1, Alliance.WHITE));
         builder.setPiece(new Bishop (7, 2, Alliance.WHITE));
@@ -60,11 +63,12 @@ public class Board {
         builder.setPiece(new Bishop (7, 5, Alliance.WHITE));
         builder.setPiece(new Knight (7, 6, Alliance.WHITE));
         builder.setPiece(new Rook   (7, 7, Alliance.WHITE));
-        for (int i = 0; i < BoardUtils.NUM_CELLS_PER_ROW - 8; i++) {
-            builder.setPiece(new Pawn(6, i, Alliance.WHITE));
-        }
+
 
         //White Layout
+        for (int i = 0; i < BoardUtils.NUM_CELLS_PER_ROW; i++) {
+            builder.setPiece(new Pawn(1, i, Alliance.BLACK));
+        }
         builder.setPiece(new Rook   (0, 0, Alliance.BLACK));
         builder.setPiece(new Knight (0, 1, Alliance.BLACK));
         builder.setPiece(new Bishop (0, 2, Alliance.BLACK));
@@ -73,9 +77,6 @@ public class Board {
         builder.setPiece(new Bishop (0, 5, Alliance.BLACK));
         builder.setPiece(new Knight (0, 6, Alliance.BLACK));
         builder.setPiece(new Rook   (0, 7, Alliance.BLACK));
-        for (int i = 0; i < BoardUtils.NUM_CELLS_PER_ROW - 8; i++) {
-            builder.setPiece(new Pawn(1, i, Alliance.BLACK));
-        }
 
         builder.setMoveMaker(Alliance.WHITE);
         return builder.build();
