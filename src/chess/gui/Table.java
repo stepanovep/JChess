@@ -26,12 +26,19 @@ import static javax.swing.SwingUtilities.isRightMouseButton;
 public class Table {
 
     private final JFrame gameFrame;
+    private final GameHistoryPanel gameHistoryPanel;
+    private final TakenPiecesPanel takenPiecesPanel;
+
+    private final MoveLog moveLog;
     private final BoardPanel boardPanel;
     private Board chessBoard;
 
     private Cell sourceCell;
     private Cell destinationCell;
     private Piece humanMovedPiece;
+    private BoardDirection boardDirection;
+
+    private boolean highlighLegalMoves;
 
 
     private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(600, 600);
@@ -50,11 +57,20 @@ public class Table {
         final JMenuBar tableMenuBar = createTableMenuBar();
         this.gameFrame.setJMenuBar(tableMenuBar);
         this.gameFrame.setSize(OUTER_FRAME_DIMENSION);
-
         this.chessBoard = Board.createStandardBoard();
-        this.boardPanel = new BoardPanel();
-        this.gameFrame.add(this.boardPanel, BorderLayout.CENTER);
 
+        this.gameHistoryPanel = new GameHistoryPanel();
+        this.takenPiecesPanel = new TakenPiecesPanel();
+        this.moveLog = new MoveLog();
+
+        this.boardPanel = new BoardPanel();
+        this.boardDirection = BoardDirection.NORMAL;
+
+        this.highlighLegalMoves = false;
+
+        this.gameFrame.add(this.takenPiecesPanel, BorderLayout.WEST);
+        this.gameFrame.add(this.gameHistoryPanel, BorderLayout.EAST);
+        this.gameFrame.add(this.boardPanel, BorderLayout.CENTER);
         this.gameFrame.setVisible(true);
 
     }
@@ -62,6 +78,7 @@ public class Table {
     private JMenuBar createTableMenuBar() {
         final JMenuBar tableMenuBar = new JMenuBar();
         tableMenuBar.add(createFileMenu());
+        tableMenuBar.add(createPreferencesMenu());
 
         return tableMenuBar;
     }
@@ -85,7 +102,67 @@ public class Table {
             }
         });
         fileMenu.add(exitMenuItem);
+
         return fileMenu;
+    }
+
+    private JMenu createPreferencesMenu() {
+
+        final JMenu preferencesMenu = new JMenu("Preferences");
+        final JMenuItem flipBoardMenuItem = new JMenuItem("Flip Board");
+        flipBoardMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                boardDirection = boardDirection.opposite();
+                boardPanel.drawBoard(chessBoard);
+            }
+        });
+        preferencesMenu.add(flipBoardMenuItem);
+
+        preferencesMenu.addSeparator();
+
+        final JCheckBoxMenuItem legalMoveHighlighterCheckBox = new JCheckBoxMenuItem("Highlight Legal Moves", false);
+
+        legalMoveHighlighterCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                highlighLegalMoves = legalMoveHighlighterCheckBox.isSelected();
+            }
+        });
+
+        preferencesMenu.add(legalMoveHighlighterCheckBox);
+
+        return preferencesMenu;
+    }
+
+    public enum BoardDirection {
+        NORMAL {
+            @Override
+            BoardDirection opposite() {
+                return FLIPPED;
+            }
+
+            @Override
+            List<CellPanel> traverse(List<CellPanel> boardCells) {
+                return boardCells;
+            }
+        },
+        FLIPPED {
+            @Override
+            BoardDirection opposite() {
+                return NORMAL;
+            }
+
+            @Override
+            List<CellPanel> traverse(List<CellPanel> boardCells) {
+                List<CellPanel> copiedBoardCells = new ArrayList<>(boardCells);
+                Collections.reverse(copiedBoardCells);
+
+                return copiedBoardCells;
+            }
+        };
+        abstract BoardDirection opposite();
+        abstract List<CellPanel> traverse(final List<CellPanel> boardCells);
     }
 
     private class BoardPanel extends JPanel {
@@ -105,12 +182,45 @@ public class Table {
 
         public void drawBoard(final Board board) {
             removeAll();
-            for (final CellPanel cellPanel: boardCells) {
+            for (final CellPanel cellPanel: boardDirection.traverse(boardCells)) {
                 cellPanel.drawCell(board);
                 add(cellPanel);
             }
             validate();
             repaint();
+        }
+    }
+
+    public static class MoveLog {
+
+        private final List<Move> moves;
+
+        MoveLog() {
+            this.moves = new ArrayList<>();
+        }
+
+        public List<Move> getMoves() {
+            return this.moves;
+        }
+
+        public void addMove(final Move move) {
+             this.moves.add(move);
+        }
+
+        public int size() {
+            return this.moves.size();
+        }
+
+        public void clear() {
+            this.moves.clear();
+        }
+
+        public Move removeMove(int idx) {
+            return this.moves.remove(idx);
+        }
+
+        public boolean removeMove(final Move move) {
+            return this.moves.remove(move);
         }
     }
 
@@ -148,6 +258,7 @@ public class Table {
                             final MoveTransition transition = chessBoard.currentPlayer().makeMove(move);
                             if (transition.getMoveStatus().isDone()) {
                                 chessBoard = transition.getTransitionBoard();
+                                moveLog.addMove(move);
                                 //TODO add the move that was made to the move log
                             }
                             sourceCell = null;
@@ -157,6 +268,8 @@ public class Table {
                         SwingUtilities.invokeLater(new Runnable() {
                             @Override
                             public void run() {
+                                gameHistoryPanel.redo(chessBoard, moveLog);
+                                takenPiecesPanel.redo(moveLog);
                                 boardPanel.drawBoard(chessBoard);
                             }
                         });
@@ -190,6 +303,7 @@ public class Table {
         public void drawCell (final Board board) {
             assignCellColor();
             assignCellPieceIcon(board);
+            highligthLegals(board);
             validate();
             repaint();
         }
@@ -208,6 +322,27 @@ public class Table {
             }
         }
 
+        private void highligthLegals(final Board board) {
+            if (highlighLegalMoves) {
+                for (final Move move: pieceLegalMoves(board)) {
+                    if (move.getDestinationCoordinate() == this.cellId) {
+                        try {
+                            add(new JLabel(new ImageIcon(ImageIO.read(new File("art/misc/green_dot.png")))));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+
+        private Collection<Move> pieceLegalMoves(final Board board) {
+            if (humanMovedPiece != null && humanMovedPiece.getPieceAlliance() == board.currentPlayer().getAlliance()) {
+                return humanMovedPiece.calculateLegalMoves(board);
+            }
+            return Collections.emptyList();
+        }
+
         private void assignCellColor() {
             // the author's solution here is really crap,
             // I am gonna implement this on my own way
@@ -215,7 +350,5 @@ public class Table {
             final int cellPositionY = this.cellId % 8;
             setBackground((cellPositionX + cellPositionY) % 2 == 0 ? lightCellColor : darkCellColor);
         }
-
     }
-
 }

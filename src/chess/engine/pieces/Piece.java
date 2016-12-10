@@ -62,6 +62,11 @@ public abstract class Piece {
         return this.cachesHashCode;
     }
 
+    @Override
+    public String toString() {
+        return this.pieceType.toString();
+    }
+
     public String myToString() {
         return pieceType.toString() + ":" + (piecePositionX+1) + " " + (piecePositionY+1);
     }
@@ -92,7 +97,7 @@ public abstract class Piece {
 
     public abstract Collection<Move> calculateLegalMoves(final Board board);
 
-    public abstract Piece movedPiece(Move move);
+    public abstract Piece movePiece(Move move);
 
     public int getPieceValue() {
         return this.pieceType.getPieceValue();

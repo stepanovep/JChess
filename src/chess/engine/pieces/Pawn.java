@@ -69,7 +69,7 @@ public class Pawn extends Piece {
                         final Piece pieceAtDestination = moveToCell.getPiece();
                         final Alliance pieceAlliance = pieceAtDestination.pieceAlliance;
                         if (this.getPieceAlliance() != pieceAlliance) {
-                            legalMoves.add(new AttackMove(board, this, toX, toY, pieceAtDestination));
+                            legalMoves.add(new PawnAttackMove(board, this, toX, toY, pieceAtDestination));
                         }
                     }
                 }
@@ -82,7 +82,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public Pawn movedPiece(final Move move) {
+    public Pawn movePiece(final Move move) {
         return new Pawn(move.getDestCoordX(), move.getDestCoordY(), move.getMovedPiece().getPieceAlliance());
     }
 

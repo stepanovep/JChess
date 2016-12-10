@@ -119,7 +119,7 @@ public class Queen extends Piece {
     }
 
     @Override
-    public Queen movedPiece(final Move move) {
+    public Queen movePiece(final Move move) {
         return new Queen(move.getDestCoordX(), move.getDestCoordY(), move.getMovedPiece().getPieceAlliance());
     }
 
