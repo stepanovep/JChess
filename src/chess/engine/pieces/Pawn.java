@@ -72,6 +72,12 @@ public class Pawn extends Piece {
                         if (this.getPieceAlliance() != pieceAlliance) {
                             legalMoves.add(new PawnAttackMove(board, this, toX, toY, pieceAtDestination));
                         }
+                    } else if (board.getEnPassantPawn() != null) {
+                        final Piece pieceOnCandidate = board.getEnPassantPawn();
+                        final int enPassantPawnPosition = pieceOnCandidate.getPiecePosition();
+                        if (enPassantPawnPosition == this.getPiecePosition() + dy[i]) {
+                            legalMoves.add(new PawnEnPassantAttackMove(board, this, toX, toY, pieceOnCandidate));
+                        }
                     }
                 }
             }

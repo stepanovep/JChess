@@ -84,8 +84,8 @@ public class TakenPiecesPanel extends JPanel {
                 final String iconPath = "art/fancy_whited/" + takenPiece.getPieceAlliance().toString().substring(0,1) + takenPiece.toString() + ".gif";
                 final BufferedImage image = ImageIO.read(new File(iconPath));
                 final ImageIcon icon = new ImageIcon(image);
-                final JLabel imageLabel = new JLabel();
-                this.southPanel.add(imageLabel);
+                final JLabel imageLabel = new JLabel(icon);
+                this.northPanel.add(imageLabel);
             } catch (final IOException e) {
                 e.printStackTrace();
             }
@@ -96,8 +96,8 @@ public class TakenPiecesPanel extends JPanel {
                 final String iconPath = "art/fancy_whited/" + takenPiece.getPieceAlliance().toString().substring(0,1) + takenPiece.toString() + ".gif";
                 final BufferedImage image = ImageIO.read(new File(iconPath));
                 final ImageIcon icon = new ImageIcon(image);
-                final JLabel imageLabel = new JLabel();
-                this.northPanel.add(imageLabel);
+                final JLabel imageLabel = new JLabel(icon);
+                this.southPanel.add(imageLabel);
             } catch (final IOException e) {
                 e.printStackTrace();
             }
