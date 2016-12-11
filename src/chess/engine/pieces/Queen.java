@@ -7,6 +7,8 @@ import chess.engine.board.Move;
 
 import java.util.*;
 
+import static chess.engine.board.Move.*;
+
 /**
  * Created by stepanovep on 12/2/16.
  */
@@ -49,13 +51,13 @@ public class Queen extends Piece {
                     if (Cell.legalPosition(toX, toY)) {
                         final Cell candidateDestinationCell = board.getCell(toX, toY);
                         if (!candidateDestinationCell.isCellOccupied()) {
-                            legalMoves.add(new Move.MajorMove(board, this, toX, toY));
+                            legalMoves.add(new MajorMove(board, this, toX, toY));
                         } else {
                             final Piece pieceAtDestination = candidateDestinationCell.getPiece();
                             final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
 
                             if (this.pieceAlliance != pieceAlliance) {
-                                legalMoves.add(new Move.AttackMove(board, this, toX, toY, pieceAtDestination));
+                                legalMoves.add(new MajorAttackMove(board, this, toX, toY, pieceAtDestination));
                             }
                             break iteration;
                         }
@@ -75,13 +77,13 @@ public class Queen extends Piece {
                 if (Cell.legalPosition(toX, toY)) {
                     final Cell candidateDestinationCell = board.getCell(toX, toY);
                     if (!candidateDestinationCell.isCellOccupied()) {
-                        legalMoves.add(new Move.MajorMove(board, this, toX, toY));
+                        legalMoves.add(new MajorMove(board, this, toX, toY));
                     } else {
                         final Piece pieceAtDestination = candidateDestinationCell.getPiece();
                         final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
 
                         if (this.pieceAlliance != pieceAlliance) {
-                            legalMoves.add(new Move.AttackMove(board, this, toX, toY, pieceAtDestination));
+                            legalMoves.add(new MajorAttackMove(board, this, toX, toY, pieceAtDestination));
                         }
                         break;
                     }
@@ -99,13 +101,13 @@ public class Queen extends Piece {
                 if (Cell.legalPosition(toX, toY)) {
                     final Cell candidateDestinationCell = board.getCell(toX, toY);
                     if (!candidateDestinationCell.isCellOccupied()) {
-                        legalMoves.add(new Move.MajorMove(board, this, toX, toY));
+                        legalMoves.add(new MajorMove(board, this, toX, toY));
                     } else {
                         final Piece pieceAtDestination = candidateDestinationCell.getPiece();
                         final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
 
                         if (this.pieceAlliance != pieceAlliance) {
-                            legalMoves.add(new Move.AttackMove(board, this, toX, toY, pieceAtDestination));
+                            legalMoves.add(new MajorAttackMove(board, this, toX, toY, pieceAtDestination));
                         }
                         break;
                     }

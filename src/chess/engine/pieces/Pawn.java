@@ -47,12 +47,13 @@ public class Pawn extends Piece {
         if (BoardUtils.isValidCellCoordinate(toX, toY)) {
             Cell moveToCell = board.getCell(toX, toY);
             if (!moveToCell.isCellOccupied()) {
-                legalMoves.add(new MajorMove(board, this, toX, toY));
+                legalMoves.add(new PawnMove(board, this, toX, toY));
 
                 // move forward 2 steps
                 toX = piecePositionX + 2 * dx;
                 if (BoardUtils.isValidCellCoordinate(toX, toY)) {
                     moveToCell = board.getCell(toX, toY);
+                    //TODO ideally there is has to be used isFirstMove() method
                     if (!moveToCell.isCellOccupied() && isPawnInStartPosition()) {
                         legalMoves.add(new PawnJump(board, this, toX, toY));
                     }

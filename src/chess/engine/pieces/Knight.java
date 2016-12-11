@@ -4,6 +4,7 @@ import chess.engine.Alliance;
 import chess.engine.board.Board;
 import chess.engine.board.Cell;
 import chess.engine.board.Move;
+import chess.engine.board.Move.MajorAttackMove;
 
 import java.util.*;
 
@@ -44,7 +45,7 @@ public class Knight extends Piece {
                         final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
 
                         if (this.pieceAlliance != pieceAlliance) {
-                            legalMoves.add(new Move.AttackMove(board, this, x, y, pieceAtDestination));
+                            legalMoves.add(new MajorAttackMove(board, this, x, y, pieceAtDestination));
                         }
                     }
                 }

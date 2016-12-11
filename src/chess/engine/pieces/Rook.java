@@ -48,7 +48,7 @@ public class Rook extends Piece {
                         final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
 
                         if (this.pieceAlliance != pieceAlliance) {
-                            legalMoves.add(new Move.AttackMove(board, this, toX, toY, pieceAtDestination));
+                            legalMoves.add(new Move.MajorAttackMove(board, this, toX, toY, pieceAtDestination));
                         }
                         break;
                     }
@@ -74,7 +74,7 @@ public class Rook extends Piece {
                         final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
 
                         if (this.pieceAlliance != pieceAlliance) {
-                            legalMoves.add(new Move.AttackMove(board, this, toX, toY, pieceAtDestination));
+                            legalMoves.add(new Move.MajorAttackMove(board, this, toX, toY, pieceAtDestination));
                         }
                         break;
                     }
