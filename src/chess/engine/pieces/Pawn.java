@@ -47,8 +47,11 @@ public class Pawn extends Piece {
         if (BoardUtils.isValidCellCoordinate(toX, toY)) {
             Cell moveToCell = board.getCell(toX, toY);
             if (!moveToCell.isCellOccupied()) {
-                legalMoves.add(new PawnMove(board, this, toX, toY));
-
+                if (this.pieceAlliance.isPawnPromotionSquare(toX, toY)) {
+                    legalMoves.add(new PawnPromotion(new PawnMove(board, this, toX, toY)));
+                } else {
+                    legalMoves.add(new PawnMove(board, this, toX, toY));
+                }
                 // move forward 2 steps
                 toX = piecePositionX + 2 * dx;
                 if (BoardUtils.isValidCellCoordinate(toX, toY)) {
@@ -60,6 +63,7 @@ public class Pawn extends Piece {
                 }
             }
 
+
             // check attack options
             for (int i = 0; i < 2; i++) {
                 toX = piecePositionX + dx;
@@ -70,7 +74,12 @@ public class Pawn extends Piece {
                         final Piece pieceAtDestination = moveToCell.getPiece();
                         final Alliance pieceAlliance = pieceAtDestination.pieceAlliance;
                         if (this.getPieceAlliance() != pieceAlliance) {
-                            legalMoves.add(new PawnAttackMove(board, this, toX, toY, pieceAtDestination));
+                            if (this.pieceAlliance.isPawnPromotionSquare(toX, toY)) {
+                                legalMoves.add(new PawnPromotion(new PawnAttackMove(board, this, toX, toY, pieceAtDestination)));
+                            }
+                            else {
+                                legalMoves.add(new PawnAttackMove(board, this, toX, toY, pieceAtDestination));
+                            }
                         }
                     } else if (board.getEnPassantPawn() != null) {
                         final Piece pieceOnCandidate = board.getEnPassantPawn();
@@ -83,8 +92,6 @@ public class Pawn extends Piece {
             }
         }
 
-        //TODO enPassantMove attackMove!!
-
         return legalMoves;
     }
 
@@ -96,5 +103,9 @@ public class Pawn extends Piece {
     @Override
     public String toString() {
         return PieceType.PAWN.toString();
+    }
+
+    public Piece getPromotionPiece() {
+        return new Queen(this.piecePositionX, this.piecePositionY, this.pieceAlliance, false);
     }
 }
